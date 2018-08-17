@@ -1,3 +1,4 @@
+build: false  # Not a C# project
 environment:
   matrix:
     - TOXENV: py27
