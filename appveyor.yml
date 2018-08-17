@@ -14,4 +14,4 @@ test_script:
   - "tox"
 
 cache:
-  - "%LOCALAPPDATA%\pip\cache"
+  - "%LOCALAPPDATA%\\pip\\cache"
