@@ -5,6 +5,8 @@ environment:
     - TOXENV: py35
     - TOXENV: py36
     - TOXENV: py37
+    - TOXENV: doc
+      PYTHON: "C:\\Python37"
 
 install:
   - "SET PATH=%PYTHON_HOME%;%PYTHON_HOME%\\Scripts;%PATH%"
