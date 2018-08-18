@@ -24,8 +24,5 @@ setup(
     entry_points={"console_scripts": []},
     license="MIT license",
     packages=[],
-    install_requires=[],
-    setup_requires=[],
-    tests_require=[],
-    version='0.1.0',
+    version="0.1.0",
 )
