@@ -1,4 +1,4 @@
-.PHONY: build clean doc
+.PHONY: build clean doc doc-browser
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -35,7 +35,9 @@ build: ## Build project with default settings
 clean: ## Clean project with default settings
 	rm -R pyawesome
 
-doc: ## generate Sphinx HTML documentation, including API docs
+doc: ## Generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C doc clean
 	$(MAKE) -C doc html
+
+doc-browser: doc ## Open sphinx generated documentation
 	$(BROWSER) doc/_build/html/index.html
