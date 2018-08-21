@@ -1,5 +1,5 @@
-.PHONY: build clean clean-build clean-default-project clean-pyc clean-test doc \
-doc-browser install test test-all
+.PHONY: build clean clean-build clean-pyawesome clean-pyc clean-test \
+doc doc-browser install test test-all
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -15,13 +15,29 @@ endef
 export BROWSER_PYSCRIPT
 
 define PRINT_HELP_PYSCRIPT
-import re, sys
+import re, sys, textwrap
+
+last_target = None
+d = {}
 
 for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
+	match = re.match(r'^([A-Za-z_-]+:)*(?:\s[A-Za-z-_]*)*(?:\s*)## (.+)', line)
 	if match:
 		target, help = match.groups()
-		print("%-20s %s" % (target, help))
+		if target:
+			last_target = target
+			d[target] = help
+		else:
+			d[last_target] += (' ' + help)
+
+for k,v in d.items():
+	for id, text in enumerate(textwrap.wrap(v)):
+		if id == 0:
+			print('{:20} {}'.format(k, text))
+		else:
+			print('{:20} {}'.format('', text))
+
+
 endef
 export PRINT_HELP_PYSCRIPT
 
@@ -33,7 +49,8 @@ help:
 build: ## Build project with default settings
 	cookiecutter --no-input --overwrite-if-exists .
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-pyawesome ## remove all
+	## build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -54,7 +71,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
-clean-default-project:
+clean-pyawesome: ## Remove default project
 	rm -fr pyawesome
 
 doc: ## Generate Sphinx HTML documentation, including API docs
