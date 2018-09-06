@@ -1,6 +1,8 @@
 from cookiecutter import main
 import os
+import shlex
 import shutil
+import subprocess
 
 
 def is_dir(path):
@@ -13,6 +15,14 @@ def is_file(path):
 
 def rm_dir(path):
     return shutil.rmtree(os.path.abspath(path))
+
+
+def run_cmd(cmd):
+    return subprocess.call(cmd_split(cmd))
+
+
+def cmd_split(cmd):
+    return shlex.split(cmd)
 
 
 class TempCookiecutterProject(object):
@@ -50,6 +60,11 @@ def test_changed_dir_correctly():
         assert os.getcwd() == new_path
     assert old_path == os.getcwd()
 
+
+def test_setup():
+    with TempCookiecutterProject():
+        with ChangeDir('./pyawesome'):
+            assert run_cmd('python setup.py install') == 0
 
 
 
