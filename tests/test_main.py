@@ -23,7 +23,33 @@ class TempCookiecutterProject(object):
         rm_dir('./pyawesome')
 
 
+class ChangeDir(object):
+    def __init__(self, path):
+        self.old_path = os.getcwd()
+        self.new_path = path
+
+    def __enter__(self):
+        os.chdir(self.new_path)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        os.chdir(self.old_path)
+
+
 def test_project():
     with TempCookiecutterProject():
         assert is_dir('./pyawesome')
+        assert is_file('./pyawesome/setup.py')
+        assert is_dir('./pyawesome/pyawesome')
+        assert is_file('./pyawesome/pyawesome/__init__.py')
+
+
+def test_changed_dir_correctly():
+    new_path = os.path.join(os.getcwd(), 'tests')
+    old_path = os.getcwd()
+    with ChangeDir('./tests'):
+        assert os.getcwd() == new_path
+    assert old_path == os.getcwd()
+
+
+
 
